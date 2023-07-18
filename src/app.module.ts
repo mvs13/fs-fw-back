@@ -9,6 +9,9 @@ import { User } from './users/entities/user.entity';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { EventCategoryModule } from './event-category/event-category.module';
+import { EventsModule } from './events/events.module';
+import { EventCategory } from './event-category/entities/event-category.entity';
+import { Event } from './events/entities/event.entity';
 
 @Module({
   imports: [
@@ -21,13 +24,14 @@ import { EventCategoryModule } from './event-category/event-category.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWD,
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, EventCategory, Event],
       autoLoadEntities: true,
       synchronize: true,
     }),
     AuthModule,
     UsersModule,
     EventCategoryModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

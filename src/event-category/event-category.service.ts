@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEventCategoryDto } from './dto/create-event-category.dto';
 import { UpdateEventCategoryDto } from './dto/update-event-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EventCategory } from './entities/event-category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EventCategoryService {
-  create(createEventCategoryDto: CreateEventCategoryDto) {
-    return 'This action adds a new eventCategory';
+  constructor(
+    @InjectRepository(EventCategory)
+    private categoryRepository: Repository<EventCategory>,
+  ) {}
+
+  create(newCategory: CreateEventCategoryDto) {
+    return this.categoryRepository.save(newCategory);
   }
 
   findAll() {
-    return `This action returns all eventCategory`;
+    return this.categoryRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} eventCategory`;
+    return this.categoryRepository.findOneBy({ id });
   }
 
-  update(id: number, updateEventCategoryDto: UpdateEventCategoryDto) {
-    return `This action updates a #${id} eventCategory`;
+  update(id: number, event4Update: UpdateEventCategoryDto) {
+    return this.categoryRepository.save({ ...event4Update, id });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} eventCategory`;
+    return this.categoryRepository.delete(id);
   }
 }
