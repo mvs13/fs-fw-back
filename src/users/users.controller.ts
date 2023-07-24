@@ -30,7 +30,7 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
@@ -38,5 +38,13 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
+  }
+
+  @Patch('attend-to-event')
+  async attendToEvent(@Body() updateData: any) {
+    return await this.usersService.attendToEvent(
+      updateData.eventId,
+      updateData.userId,
+    );
   }
 }

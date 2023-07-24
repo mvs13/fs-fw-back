@@ -24,8 +24,13 @@ export class EventCategoryService {
     return this.categoryRepository.findOneBy({ id });
   }
 
-  update(id: number, event4Update: UpdateEventCategoryDto) {
-    return this.categoryRepository.save({ ...event4Update, id });
+  async update(id: number, event4Update: UpdateEventCategoryDto) {
+    const category = await this.categoryRepository.findOneBy({ id: id });
+    category.name = event4Update.name ? event4Update.name : category.name;
+    category.def_image = event4Update.def_image
+      ? event4Update.def_image
+      : category.def_image;
+    return this.categoryRepository.save(category);
   }
 
   remove(id: number) {
